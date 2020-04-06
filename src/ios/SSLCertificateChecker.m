@@ -89,11 +89,21 @@
     for (int i = 0; i < CC_SHA1_DIGEST_LENGTH; ++i) {
         [fingerprint appendFormat:@"%02x ", sha1Bytes[i]];
     }
-    return [fingerprint stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+	
+	NSError *error = NULL;
+	NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9]" options:NSRegularExpressionCaseInsensitive error:&error];
+	NSString *result = [regexp stringByReplacingMatchesInString:fingerprint options:0 range:NSMakeRange(0, [fingerprint length]) withTemplate:@""];
+	
+    return result;
 }
 
 - (BOOL) isFingerprintTrusted: (NSString*)fingerprint {
   for (NSString *fp in self._allowedFingerprints) {
+	
+	NSError *error = NULL;
+	NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9]" options:NSRegularExpressionCaseInsensitive error:&error];
+	NSString *result = [regexp stringByReplacingMatchesInString:fp options:0 range:NSMakeRange(0, [fp length]) withTemplate:@""];
+  
     if ([fingerprint caseInsensitiveCompare: fp] == NSOrderedSame) {
       return YES;
     }
