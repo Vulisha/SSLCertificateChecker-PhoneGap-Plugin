@@ -94,6 +94,7 @@
 	NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9]" options:NSRegularExpressionCaseInsensitive error:&error];
 	NSString *result = [regexp stringByReplacingMatchesInString:fingerprint options:0 range:NSMakeRange(0, [fingerprint length]) withTemplate:@""];
 	
+	
     return result;
 }
 
@@ -104,7 +105,7 @@
 	NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9]" options:NSRegularExpressionCaseInsensitive error:&error];
 	NSString *result = [regexp stringByReplacingMatchesInString:fp options:0 range:NSMakeRange(0, [fp length]) withTemplate:@""];
   
-    if ([fingerprint caseInsensitiveCompare: fp] == NSOrderedSame) {
+    if ([fingerprint caseInsensitiveCompare: result] == NSOrderedSame) {
       return YES;
     }
   }
